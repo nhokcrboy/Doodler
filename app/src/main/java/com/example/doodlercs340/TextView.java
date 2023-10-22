@@ -13,12 +13,19 @@ import androidx.annotation.Nullable;
 public class TextView extends DrawView {
         private String Text;
         private float text_size;
-        private DimHelp dimHelp = DimHelp.getInstance(getContext());
 
         public TextView(@NonNull Context context, float x, float y, String Text, float text_size, float width) {
                 super(context);
                 initFromParentCoordsPX(x, y, width, getHeightFromTextSize(text_size));
                 this.Text = Text;
+                this.text_size = dimHelp.dpToPx(text_size);
+        }
+
+        public TextView(@NonNull Context context, float x, float y, String Text, float text_size) {
+                super(context);
+                Log.d("CSE340", "There");
+                this.Text = Text;
+                initFromParentCoordsPX(x, y, getWidthFromTextSize(text_size), getHeightFromTextSize(text_size));
                 this.text_size = dimHelp.dpToPx(text_size);
         }
 
@@ -37,13 +44,19 @@ public class TextView extends DrawView {
 //                Log.d("CSE340", "onDraw: " + getHeight());
 //                Log.d("CSE340", "onDraw: " + this.Text);
 //                Log.d("CSE340", "onDraw: " + this.text_size);
-                canvas.drawText(this.Text, 0, text_size, p);
+                canvas.drawText(this.Text, 0, - p.getFontMetrics().ascent, p);
         }
 
         private float getHeightFromTextSize(float textSize) {
                 Paint p = new Paint();
                 p.setTextSize(dimHelp.dpToPx(textSize));
                 Paint.FontMetrics fm = p.getFontMetrics();
-                return fm.descent - fm.ascent;
+                return dimHelp.pxToDp(fm.descent - fm.ascent);
+        }
+
+        private float getWidthFromTextSize(float textSize) {
+                Paint p = new Paint();
+                p.setTextSize(dimHelp.dpToPx(textSize));
+                return dimHelp.pxToDp(p.measureText(this.Text));
         }
 }

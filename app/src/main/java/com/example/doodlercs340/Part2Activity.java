@@ -53,8 +53,8 @@ public class Part2Activity extends AbstractMainActivity{
 
         CircleView circle = new CircleView(this, 0, 50, 50);
         LineView line = new LineView(this, new Point(50,100), new Point(50,200));
-        TextView text = new TextView(this, 0, 0, "Hello Worlg" +
-                "", 50, 500);
+
+        TextView text = new TextView(this, 0, 0, "Hello World {}", 50);
 
         doodleView.addView(circle);
         doodleView.addView(text);

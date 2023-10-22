@@ -10,9 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class CircleView extends DrawView{
+    private float radius;
     public CircleView(@NonNull Context context, float x, float y, float radius) {
         super(context);
-        initFromParentCoordsPX(x,y,radius,radius);
+        this.radius = radius;
+        initFromParentCoordsPX(x,y,radius + dimHelp.pxToDp(brush_width),radius + dimHelp.pxToDp(brush_width));
     }
 
     public CircleView(@NonNull Context context, @Nullable AttributeSet attrs) {
@@ -26,6 +28,6 @@ public class CircleView extends DrawView{
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawCircle(getWidth()/2,getHeight()/2,getWidth()/2, getBrush(Paint.Style.STROKE, Color.BLACK, 5));
+        canvas.drawCircle(getWidth()/2,getHeight()/2,radius, getBrush(Paint.Style.STROKE, Color.BLACK));
     }
 }

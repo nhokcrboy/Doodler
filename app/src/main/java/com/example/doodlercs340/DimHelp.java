@@ -18,13 +18,13 @@ public class DimHelp {
         return instance;
     }
 
-    public int dpToPx(float dp) {
+    public float dpToPx(float dp) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-        return Math.round(dp * (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+        return (dp * (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
-    public int pxToDp(float px) {
+    public float pxToDp(float px) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-        return Math.round(px / (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+        return (px / (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 }

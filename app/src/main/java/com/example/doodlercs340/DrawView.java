@@ -15,6 +15,8 @@ public abstract class DrawView extends AppCompatImageView {
     protected static Paint paint = new Paint();
     private float width;
     private float height;
+    protected float brush_width = 10f;
+    protected DimHelp dimHelp = DimHelp.getInstance(getContext());
 
     public DrawView(@NonNull Context context) {
         super(context);
@@ -28,10 +30,10 @@ public abstract class DrawView extends AppCompatImageView {
         super(context, attrs, defStyleAttr);
     }
 
-    public Paint getBrush(Paint.Style style, int color , float width) {
+    public Paint getBrush(Paint.Style style, int color) {
         paint.setStyle(style);
         paint.setAntiAlias(true);
-        paint.setStrokeWidth(width);
+        paint.setStrokeWidth(brush_width);
         return paint;
     }
 
