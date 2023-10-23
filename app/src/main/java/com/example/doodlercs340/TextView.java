@@ -40,7 +40,7 @@ public class TextView extends DrawView {
         @Override
         protected void onDraw(Canvas canvas) {
                 super.onDraw(canvas);
-                Paint p = getBrush(text_size, Color.BLACK);
+                Paint p = getBrush(text_size);
 //                Log.d("CSE340", "onDraw: " + getHeight());
 //                Log.d("CSE340", "onDraw: " + this.Text);
 //                Log.d("CSE340", "onDraw: " + this.text_size);

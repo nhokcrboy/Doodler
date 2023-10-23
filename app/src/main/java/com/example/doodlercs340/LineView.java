@@ -25,11 +25,15 @@ public class LineView extends DrawView{
         this.p2 = p2;
         float width = abs(p2.x - p1.x);
         float height = abs(p2.y - p1.y);
-        if (width == 0) width = DimHelp.getInstance(context).pxToDp(10f);
-        if (height == 0) height = DimHelp.getInstance(context).pxToDp(10f);
+        Log.d("CSE340", "LineView width: " + width);
+        Log.d("CSE340", "LineView height: " + height);
+        if (width == 0) width = DimHelp.getInstance(context).pxToDp(brush_width);
+        if (height == 0) height = DimHelp.getInstance(context).pxToDp(brush_width);
         float x = (float) min(p1.x, p2.x);
         float y = (float) min(p1.y, p2.y);
-        initFromParentCoordsPX(x,y,width,height);
+        initFromParentCoordsPX(dimHelp.pxToDp(x),dimHelp.pxToDp(y),dimHelp.pxToDp(width),dimHelp.pxToDp(height));
+        Log.d("CSE340", "LineView width: " + dimHelp.pxToDp(width));
+        Log.d("CSE340", "LineView height: " + dimHelp.pxToDp(height));
     }
 
     public LineView(@NonNull Context context, @Nullable AttributeSet attrs) {
@@ -43,7 +47,7 @@ public class LineView extends DrawView{
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Paint p = getBrush(Paint.Style.STROKE, Color.BLACK);
+        Paint p = getBrush(Paint.Style.STROKE);
         Log.d("CSE340", "onDraw: " + getWidth());
         Log.d("CSE340", "onDraw: " + getHeight());
         canvas.drawLine(0,0,abs(p2.x - p1.x),abs(p2.y - p1.y),p);

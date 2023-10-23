@@ -1,17 +1,20 @@
 package com.example.doodlercs340;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class Part1Activity extends AbstractMainActivity {
+    DimHelp dimHelp = DimHelp.getInstance(this);
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,11 +57,31 @@ public class Part1Activity extends AbstractMainActivity {
     public void doodle(FrameLayout doodleView) {
         // Adds all images as a heart collage.
         addAllImagesFromData(doodleView);
+        Log.d("CSE340", "PHONE_DIMS: " + PHONE_DIMS.x);
+        Log.d("CSE340", "PHONE_DIMS: " + PHONE_DIMS.y);
 
-        // To allow this to run on multiple screen sizes, we scale all of our coordinate values
-        // using scaleX and scaleY. For a more efficient way to do this, see EX2 Layout.
+        TextView textView = new TextView(this, PHONE_DIMS_DP.x/2 - dimHelp.getTextWidthFromTextSize(50,"CSE340") / 2, PHONE_DIMS_DP.y/4, "CSE340", 50);
+        textView.setColor(0xFFCD853F);
+        LineView lineView = new LineView(this, new Point(0, PHONE_DIMS.y/4*3), new Point(PHONE_DIMS.x, PHONE_DIMS.y/4*3));
+        lineView.setColor(0xFF8470FF);
+        lineView.setBrush_width(50f);
+        float radius[] = {25, 50, 75};
+        CircleView circleView[] = new CircleView[3];
 
+        for (int i = 0; i < 3; i++) {
+            circleView[i] = new CircleView(this, PHONE_DIMS_DP.x/2 - radius[i], PHONE_DIMS_DP.y/4*3 - radius[i], radius[i]);
+            doodleView.addView(circleView[i]);
+        }
 
-        // TODO: Do your animation with the UW text view here! It's stored in the "uw" variable.
+        TextView UW = new TextView(this ,0,PHONE_DIMS_DP.y/4*3 - dimHelp.getTextHeightFromTextSize(50), "UW", 50);
+        UW.setColor(0xFFCD853F);
+
+        doodleView.addView(textView);
+        doodleView.addView(lineView);
+        doodleView.addView(UW);
+
+        ObjectAnimator animator = ObjectAnimator.ofFloat(UW,"translationX",0f,PHONE_DIMS.x - dimHelp.dpToPx(dimHelp.getTextWidthFromTextSize(50,"UW")));
+        animator.setDuration(1000);
+        animator.start();
     }
 }

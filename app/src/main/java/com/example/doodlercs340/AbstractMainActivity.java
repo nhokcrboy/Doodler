@@ -1,5 +1,6 @@
 package com.example.doodlercs340;
 
+import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.widget.FrameLayout;
@@ -30,6 +31,7 @@ public abstract class AbstractMainActivity extends TabActivity {
      * Display width is stored in PHONE_DIMS.x and height in PHONE_DIMS.y.
      */
     protected static final Point PHONE_DIMS = new Point();
+    protected static final Point PHONE_DIMS_DP = new Point();
 
     /** Dimensions of the Pixel 2 XL. Private because you should not need these. */
     private static final Point PIXEL_DIMS = new Point(1440, 2712);
@@ -39,6 +41,8 @@ public abstract class AbstractMainActivity extends TabActivity {
         super.onCreate(savedInstanceState);
 
         getWindowManager().getDefaultDisplay().getSize(PHONE_DIMS);
+        PHONE_DIMS_DP.x = (int) DimHelp.getInstance(this).pxToDp(PHONE_DIMS.x);
+        PHONE_DIMS_DP.y = (int) DimHelp.getInstance(this).pxToDp(PHONE_DIMS.y);
 
         // Sets the UI layout to this activity.
         setContentView(R.layout.activity_main);
@@ -67,12 +71,28 @@ public abstract class AbstractMainActivity extends TabActivity {
         ImageView imageView = new ImageView(this);
         doodleView.addView(imageView);
 
+        Configuration configuration = getResources().getConfiguration();
+
         // set height - set width
         // set x - set y
-        imageView.setX(x);
-        imageView.setY(y);
-        imageView.getLayoutParams().width = size;
-        imageView.getLayoutParams().height = size;
+
+//        x = scaleX(x);
+//        y = scaleY(y);
+
+        if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            imageView.getLayoutParams().height = size;
+            imageView.getLayoutParams().width = size;
+            imageView.setX(x);
+            imageView.setY(y);
+        } else {
+//            x = convertX(x);
+//            y = convertY(y);
+            imageView.getLayoutParams().height = size;
+            imageView.getLayoutParams().width = size;
+            imageView.setX(x);
+            imageView.setY(y);
+        }
+
 
         int resID = getResources().getIdentifier(imageName, "drawable", getPackageName());
         imageView.setImageResource(resID);
@@ -88,6 +108,14 @@ public abstract class AbstractMainActivity extends TabActivity {
      */
     public float scaleY(float y) {
         return y * PHONE_DIMS.y / PIXEL_DIMS.y;
+    }
+
+    public float convertX(float x) {
+        return x * PHONE_DIMS.y / PHONE_DIMS.x;
+    }
+
+    public float convertY(float y) {
+        return y * PHONE_DIMS.x / PHONE_DIMS.y;
     }
 
     /**
